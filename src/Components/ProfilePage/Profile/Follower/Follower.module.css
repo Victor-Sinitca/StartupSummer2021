@@ -1,0 +1,14 @@
+.displayFollower {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 4px;
+}
+.icon img{
+    height: 15px;
+}
+.quantity{
+    font-size: 12px;
+}
+.nameField{
+    font-size: 10px;
+}

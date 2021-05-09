@@ -1,0 +1,6 @@
+.displayProfile {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-template-rows: 1000px;
+    background-color: #07865b;
+}

@@ -1,0 +1,31 @@
+.displayHeader {
+    display: grid;
+    grid-template-columns: 80px 200px;
+    background-color: gold;
+    align-items:center;
+}
+
+.githubImg {
+    padding-left: 30px;
+}
+.githubImg img{
+    vertical-align: middle;
+    width: 30px;
+}
+.search{
+    background-color: white;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    grid-template-rows: 25px;
+    align-items:center;
+}
+.search img{
+    vertical-align: middle;
+    padding-left: 5px;
+    width: 15px;
+}
+.search input{
+    border:none;
+    outline:none;
+}
