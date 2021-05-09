@@ -2,30 +2,46 @@ import axios, {AxiosRequestConfig} from "axios";
 import {contactsType, photosType, profileUserType} from "../../Types/Types";
 
 const instance = axios.create({
-    baseURL: 'https://api.github.com/',
-    withCredentials: true,
+    baseURL: 'https://api.github.com',
     headers: {"Accept": "application/vnd.github.v3+json"}
-    //headers: {"API-KEY": "50d6e06b-ef3e-4c7e-9bfc-aa809ba4441b"}
 } as AxiosRequestConfig)
 
-export enum ResultCodeEnum {
-    Success = 0,
-    Error = 1,
+
+export  type UsersType = {
+    login: string,
+    id: number,
+    node_id: string,
+    avatar_url: string,
+    gravatar_id: string,
+    url: string,
+    html_url: string,
+    followers_url: string,
+    following_url: string,
+    gists_url: string,
+    starred_url: string,
+    subscriptions_url: string,
+    organizations_url: string,
+    repos_url: string,
+    events_url: string,
+    received_events_url: string,
+    type: string,
+    site_admin: boolean,
+    name: string,
+    company: string,
+    blog: string,
+    location: string,
+    email: string,
+    hireable: boolean,
+    bio: string,
+    twitter_username: string,
+    public_repos: number,
+    public_gists: number,
+    followers: number,
+    following: number,
+    created_at: string,
+    updated_at: string
 }
-
-export enum ResultCodeForCaptcha {
-    CaptchaIsRequired = 10
-}
-
-
-type RespUsersType = {
-    items: Array<UserType>
-    totalCount: number,
-    "error": string | null
-}
-
-
-type UserType = {
+type OwnerType = {
     login: string,
     id: number,
     node_id: string,
@@ -46,146 +62,95 @@ type UserType = {
     events_url: string,
     site_admin: boolean
 }
-type RespUsersSearchType = {
-    total_count: number,
-    incomplete_results: boolean,
-    items: Array<UserType>
-}
-
-export const searchAPI = {
-    users(pageNumber = 1, pageSize = 20, searchText = 'Victor-Sinitca', sortText = "", order = "") {
-        return instance.get<RespUsersSearchType>(`/search/users`, {
-            params: {
-                page:pageNumber,
-                per_page:pageSize,
-                q:searchText,
-                sort:sortText,
-                order:order
-            }
-        })
-            .then(response => response.data)
-    },
-}
-/*export const searchAPI = {
-    users(pageNumber = 1, pageSize = 20, searchText = '',sortText="",order="") {
-        return instance.get<RespUsersSearchType>(`/search/
-        users?page=${pageNumber}&per_page=${pageSize}&q=${searchText}&sort=${sortText}&order=${order}`)
-            .then(response => response.data)
-    },
-}*/
+export  type UserReposType= Array<{
+    id: 365536174,
+    node_id: string
+    name: string
+    full_name: string
+    private: boolean,
+    owner: OwnerType,
+    html_url: string
+    description: null,
+    fork: boolean,
+    url: string
+    forks_url: string
+    keys_url: string
+    collaborators_url: string
+    teams_url: string
+    hooks_url: string
+    issue_events_url: string
+    events_url: string
+    assignees_url: string
+    branches_url: string
+    tags_url: string
+    blobs_url: string
+    git_tags_url: string
+    git_refs_url: string
+    trees_url: string
+    statuses_url: string
+    languages_url: string
+    stargazers_url: string
+    contributors_url: string
+    subscribers_url: string
+    subscription_url: string
+    commits_url: string
+    git_commits_url: string
+    comments_url: string
+    issue_comment_url: string
+    contents_url: string
+    compare_url: string
+    merges_url: string
+    archive_url: string
+    downloads_url: string
+    issues_url: string
+    pulls_url: string
+    milestones_url: string
+    notifications_url: string
+    labels_url: string
+    releases_url: string
+    deployments_url: string
+    created_at: string
+    updated_at: string
+    pushed_at: string
+    git_url: string
+    ssh_url: string,
+    clone_url: string,
+    svn_url: string,
+    homepage: null|string,
+    size: number,
+    stargazers_count: number,
+    watchers_count: number,
+    language: string,
+    has_issues: boolean,
+    has_projects: boolean,
+    has_downloads: boolean,
+    has_wiki: boolean,
+    has_pages: boolean,
+    forks_count: number,
+    mirror_url: null|string,
+    archived: boolean,
+    disabled: boolean,
+    open_issues_count: number,
+    license: null|string,
+    forks: number,
+    open_issues: number,
+    watchers: number,
+    default_branch: string
+}>
 
 
 export const usersAPI = {
-    listUsers(pageNumber = 1, pageSize = 10, searchText = '') {
-        return instance.get<RespUsersType>(`users?page=${pageNumber}&count=${pageSize}&term=${searchText}`)
-            .then(response => response.data)
+    getUsersProfile(username: string) {
+        return instance.get<UsersType>(`/users/${username}`).then(response => response.data)
     },
-
-
-    getUsers(pageNumber = 1, pageSize = 10, searchText = '') {
-        return instance.get<RespUsersType>(`users?page=${pageNumber}&count=${pageSize}&term=${searchText}`)
-            .then(response => response.data)
-    },
-
-
-    getFollow(id: number) {
-        return instance.post(`follow/${id}`, {},)
-    },
-    getUnFollow(id: number) {
-        return instance.delete(`follow/${id}`, {},)
-    },
-
-}
-
-type getMeType = {
-    resultCode: ResultCodeEnum
-    messages: Array<string>
-    data: {
-        id: number
-        email: string
-        login: string
+    getUsersRepos(username: string) {
+        return instance.get<UserReposType>(`/users/${username}/repos`).then(response => response.data)
     }
 }
-type RespToLogoutType = {
-    resultCode: ResultCodeEnum
-    messages: Array<string>
-    data: any
-}
-type RespToLoginType = {
-    resultCode: ResultCodeEnum | ResultCodeForCaptcha
-    messages: Array<string>
-    data: {
-        userId: number
-    }
-}
-export const authAPI = {
-    getMe() {
-        return instance.get<getMeType>(`auth/me`)
-            .then(response => response.data)
-    },
-    getToLogout() {
-        return instance.delete<RespToLogoutType>(`auth/login`)
-            .then(response => response.data)
-    },
-    getToLogin(email: string, password: string, rememberMe: boolean, captcha: null | string = null) {
-        return instance.post<RespToLoginType>(`auth/login`, {email, password, rememberMe, captcha})
-            .then(response => response.data);
-    },
-}
 
 
-export type ProfileUpdateType = {
-    contacts: contactsType
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    aboutMe: string
-}
-type RespUpdateProfileType = {
-    resultCode: ResultCodeEnum
-    messages: Array<string>
-    data: any
-}
-type RespUpdateStatusType = RespUpdateProfileType
-type RespUploadPhotoType = {
-    data: {
-        photos: photosType
-    }
-    fieldsErrors: Array<string>
-    messages: Array<string>
-    resultCode: ResultCodeEnum
-}
-export const profileAPI = {
-    getProfile(userId: number) {
-        return instance.get<profileUserType>(`profile/` + userId)
-            .then(response => response.data)
-    },
-    getStatus(userId: number) {
-        return instance.get<any>(`/profile/status/` + userId)
-            .then(response => response.data)
-    },
-    updateStatus(status: string) {
-        return instance.put<RespUpdateStatusType>(`/profile/status`, {status: status})
-            .then(response => response.data)
-    },
-    updateProfile(profile: ProfileUpdateType) {
-        return instance.put<RespUpdateProfileType>(`profile`, profile)
-            .then(response => response.data)
-    },
-    uploadPhoto(file: any) {
-        let data = new FormData();
-        data.append("image", file);
-        return instance.put<RespUploadPhotoType>(`/profile/photo`, data, {headers: {'Content-Type': 'multipart/form-data'}})
-            .then(response => response.data)
-    },
-}
 
-type CaptchaUrlType = {
-    url: string
-}
-export const securityAPI = {
-    getCaptchaUrl() {
-        return instance.get<CaptchaUrlType>(`/security/get-captcha-url`)
-            .then(response => response.data)
-    },
-}
+
+
+
+

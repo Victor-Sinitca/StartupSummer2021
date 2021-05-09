@@ -1,17 +1,14 @@
 import {AppStateType} from "./redux-store";
-import {postType, profileUserType} from "../../Types/Types";
+import {UserReposType, UsersType} from "../api/api";
 
-/*
-export const getPost =(state:AppStateType):Array<postType>=>{
-    return state.profilePage.post
+
+export const getSearchedUser =(state:AppStateType):string=>{
+    return state.profilePage.searchedUser
 }
-export const getUserId =(state:AppStateType):number|null=>{
-    return state.profilePage.userId
+export const getUserProfile =(state:AppStateType):null|UsersType=>{
+    return state.profilePage.userProfile
 }
-export const getStatus =(state:AppStateType):string=>{
-    return state.profilePage.status
+export const getUserRepositories =(state:AppStateType):null|UserReposType=>{
+    return state.profilePage.userRepositories
 }
-export const getProfile =(state:AppStateType):profileUserType|null=>{
-    return state.profilePage.profile
-}
-*/
+

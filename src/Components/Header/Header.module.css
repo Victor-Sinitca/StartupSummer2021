@@ -1,6 +1,6 @@
 .displayHeader {
     display: grid;
-    grid-template-columns: 80px 200px;
+    grid-template-columns: 80px 200px 20px;
     background-color: gold;
     align-items:center;
 }
