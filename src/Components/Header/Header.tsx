@@ -1,9 +1,9 @@
-import React, {ChangeEvent, ChangeEventHandler, FC, useState} from "react";
+import React, {ChangeEvent, ChangeEventHandler, FC, KeyboardEventHandler, useState} from "react";
 import s from "./Header.module.css"
 import github from "../../assets/image/ghub_done.png"
 import search from "../../assets/image/search-done.png"
 import {useDispatch} from "react-redux";
-import {getUsersProfileThink} from "../../redux/profile-reducer";
+import {addSearchedUser, getUsersProfileThink} from "../../redux/profile-reducer";
 
 type PropsType = {
 
@@ -13,15 +13,15 @@ const Header: FC<PropsType> = (props) => {
     const [searchedUserText, setSearchedUserText]=useState("")
     const placeholderUserName="Enter GitHub username" as string
 
-
-
-
-    const handleValidate = (event:ChangeEvent<HTMLInputElement>) => {
+    const handleOnChange = (event:ChangeEvent<HTMLInputElement>) => {
         const target = event.target
         setSearchedUserText(target.value)
+        dispatch(addSearchedUser(searchedUserText))
     }
-    const handleSearchUser = () => {
-        dispatch(getUsersProfileThink(searchedUserText))
+    const handleSearchUser = (event:any) => {
+        if(event.key === 'Enter'){
+            dispatch(getUsersProfileThink(searchedUserText))
+        }
     }
 
     return <div className={s.displayHeader}>
@@ -30,10 +30,8 @@ const Header: FC<PropsType> = (props) => {
         </div>
         <div className={s.search}>
             <img src={search} alt="search"/>
-            <input placeholder={placeholderUserName} value={searchedUserText} onChange={handleValidate} />
-        </div>
-        <div>
-            <button onClick={handleSearchUser}>search</button>
+            <input placeholder={placeholderUserName} value={searchedUserText}
+                   onChange={handleOnChange} onKeyPress={handleSearchUser} />
         </div>
     </div>
 }

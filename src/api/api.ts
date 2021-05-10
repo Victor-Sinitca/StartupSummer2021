@@ -41,6 +41,7 @@ export  type UsersType = {
     created_at: string,
     updated_at: string
 }
+
 type OwnerType = {
     login: string,
     id: number,
@@ -62,8 +63,7 @@ type OwnerType = {
     events_url: string,
     site_admin: boolean
 }
-export  type UserReposType= Array<{
-    id: 365536174,
+type ReposType={id: 365536174,
     node_id: string
     name: string
     full_name: string
@@ -135,8 +135,8 @@ export  type UserReposType= Array<{
     forks: number,
     open_issues: number,
     watchers: number,
-    default_branch: string
-}>
+    default_branch: string}
+export  type UserReposType= Array<ReposType>
 
 
 export const usersAPI = {
