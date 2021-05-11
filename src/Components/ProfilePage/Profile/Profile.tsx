@@ -14,7 +14,7 @@ const Profile: FC<PropsType> = ({userProfile}) => {
             <img src={userProfile.avatar_url}/>
         </div>
         <div>{userProfile.name}</div>
-        <a className={s.userLogin} href={userProfile.html_url}>{userProfile.login}</a>
+        <a className={s.userLogin} href={userProfile.html_url} target="_blank">{userProfile.login}</a>
         <div className={s.displayFollow} >
             <Follower nameField="Followers" quantity={userProfile.followers} icon={users} />
             <Follower nameField="Following" quantity={userProfile.following} icon={user}/>

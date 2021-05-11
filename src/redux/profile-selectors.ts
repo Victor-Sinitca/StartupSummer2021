@@ -14,4 +14,7 @@ export const getUserRepositories =(state:AppStateType):null|UserReposType=>{
 export const getPageNumber =(state:AppStateType):number=>{
     return state.profilePage.pageNumber
 }
+export const getInitRepository =(state:AppStateType):boolean=>{
+    return state.profilePage.initRepository
+}
 
