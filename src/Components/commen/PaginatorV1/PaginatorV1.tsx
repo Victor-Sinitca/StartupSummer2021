@@ -1,5 +1,6 @@
 import React, {ChangeEvent, FC, useState} from "react"
 import s from "./PaginatorV1.module.css";
+import {getUsersProfileThink} from "../../../redux/profile-reducer";
 
 type PropsType={
     totalCount:number
@@ -11,7 +12,7 @@ type PropsType={
 let PaginatorV1: FC<PropsType> = ({totalCount, pageSize, pageNumber, onPageNumber}) => {
     const [pageNumberCount, setPageNumberCount] = useState<string>("");
     let listCount = Math.ceil(totalCount / pageSize);
-    const shift:number = 3 // сдвиг влево и вправо от pageNumber
+    const shift:number = 2 // сдвиг влево и вправо от pageNumber
     let i = pageNumber - shift
     let j = pageNumber + shift
     if (pageNumber - shift <= 0) {
@@ -26,12 +27,22 @@ let PaginatorV1: FC<PropsType> = ({totalCount, pageSize, pageNumber, onPageNumbe
         i > 0 && pages.push(i);
     }
     const handleListNumberCount = (event:ChangeEvent<HTMLInputElement>) => {
-        setPageNumberCount(event.target.value)
+        if (/^[0-9]*$/.test(event.target.value)) {
+            setPageNumberCount(event.target.value)
+        }
     }
     const handleClickButton = () => {
         const count:number = +pageNumberCount
         if (+pageNumberCount > 0 && count <= listCount) {
             onPageNumber(count)
+        }
+    }
+    const handleClickEnter = (event:any) => {
+        if(event.key === 'Enter'){
+            const count:number = +pageNumberCount
+            if (+pageNumberCount > 0 && count <= listCount) {
+                onPageNumber(count)
+            }
         }
     }
     return (
@@ -62,7 +73,8 @@ let PaginatorV1: FC<PropsType> = ({totalCount, pageSize, pageNumber, onPageNumbe
                 <div>Всего {listCount} стр</div>
                 <div>
                     <span>Перейти на</span>
-                    <input value={pageNumberCount} onChange={handleListNumberCount} type='number' step="1"/>
+                    <input value={pageNumberCount} onChange={handleListNumberCount}
+                           onKeyPress={handleClickEnter} type='number' step="1"/>
                     <span>страницу</span>
                     <span className={s.searchButton}>
                         <button  onClick={handleClickButton}>ОК</button>

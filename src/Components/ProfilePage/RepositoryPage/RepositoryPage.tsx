@@ -12,7 +12,7 @@ type PropsType = {
     onPageNumber:(number:number)=>void
 }
 const RepositoryPage: FC<PropsType> = ({userRepositories,userProfile,pageNumber,onPageNumber}) => {
-    const pageSize = 15 as number
+    const pageSize = 4 as number
     const sliceArg1=(pageNumber - 1) * pageSize
     const sliceArg2=pageNumber * pageSize
     let totalCount = 0 as number
@@ -27,7 +27,9 @@ const RepositoryPage: FC<PropsType> = ({userRepositories,userProfile,pageNumber,
     }
     return <div className={s.displayRepositoryPage}>
         <div>Repositories</div>
-        {repositoryRead}
+        <div className={s.displayRepository}>
+            {repositoryRead}
+        </div>
         <PaginatorV1 totalCount={totalCount} pageSize={pageSize} pageNumber={pageNumber} onPageNumber={onPageNumber}/>
     </div>
 }

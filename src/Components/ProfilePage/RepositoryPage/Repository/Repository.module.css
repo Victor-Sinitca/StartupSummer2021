@@ -2,4 +2,14 @@
     display: grid;
     grid-template-columns: 2fr 10fr;
     background-color: #07865b;
+    grid-gap: 10px;
+    padding: 10px;
+}
+.displayRepositoryPage{
+    display: grid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    grid-gap: 5px;
+
+
 }
