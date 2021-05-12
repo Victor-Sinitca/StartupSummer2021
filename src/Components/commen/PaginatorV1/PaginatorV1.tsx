@@ -1,18 +1,18 @@
-import React, {ChangeEvent, FC, useState} from "react"
+import React, {ChangeEvent, ChangeEventHandler, FC, useState} from "react"
 import s from "./PaginatorV1.module.css";
-import {getUsersProfileThink} from "../../../redux/profile-reducer";
 
-type PropsType={
-    totalCount:number
-    pageSize:number
-    pageNumber:number
-    onPageNumber:(count:number,)=>void
+
+type PropsType = {
+    totalCount: number
+    pageSize: number
+    pageNumber: number
+    onPageNumber: (count: number,) => void
 }
 
 let PaginatorV1: FC<PropsType> = ({totalCount, pageSize, pageNumber, onPageNumber}) => {
     const [pageNumberCount, setPageNumberCount] = useState<string>("");
     let listCount = Math.ceil(totalCount / pageSize);
-    const shift:number = 2 // сдвиг влево и вправо от pageNumber
+    const shift: number = 2 // сдвиг влево и вправо от pageNumber
     let i = pageNumber - shift
     let j = pageNumber + shift
     if (pageNumber - shift <= 0) {
@@ -26,33 +26,43 @@ let PaginatorV1: FC<PropsType> = ({totalCount, pageSize, pageNumber, onPageNumbe
     for (i; i <= j && i <= listCount; i++) {
         i > 0 && pages.push(i);
     }
-    const handleListNumberCount = (event:ChangeEvent<HTMLInputElement>) => {
-        if (/^[0-9]*$/.test(event.target.value)) {
+    const handleListNumberCount = (event: any) => {
+        if ((/^[0-9]*$/.test(event.nativeEvent.data) ||
+            event.nativeEvent.inputType === "deleteContentBackward" ||
+            event.nativeEvent.inputType === "deleteContentForward")
+            &&
+            (event.target.value >= 0 && event.target.value <= listCount)
+        ) {
+            debugger
             setPageNumberCount(event.target.value)
+        } else {
+            debugger
+            setPageNumberCount(event.target.defaultValue)
         }
     }
     const handleClickButton = () => {
-        const count:number = +pageNumberCount
+        const count: number = +pageNumberCount
         if (+pageNumberCount > 0 && count <= listCount) {
             onPageNumber(count)
         }
     }
-    const handleClickEnter = (event:any) => {
-        if(event.key === 'Enter'){
-            const count:number = +pageNumberCount
+    const handleClickEnter = (event: any) => {
+        if (event.key === 'Enter') {
+            const count: number = +pageNumberCount
             if (+pageNumberCount > 0 && count <= listCount) {
                 onPageNumber(count)
             }
         }
     }
     return (
-        <div>
+        <div className={s.displayPaginator}>
             <div className={s.list}>
                 <div>
                     <button disabled={pageNumber <= 1} onClick={(e) => {
                         const count = pageNumber - 1
                         onPageNumber(count)
-                    }}> Предыдущая </button>
+                    }}> Предыдущая
+                    </button>
                 </div>
                 {pages.map(p =>
                     <div key={p}>
@@ -66,7 +76,8 @@ let PaginatorV1: FC<PropsType> = ({totalCount, pageSize, pageNumber, onPageNumbe
                     <button disabled={pageNumber >= listCount} onClick={(e) => {
                         const count = pageNumber + 1
                         onPageNumber(count)
-                    }}> Следующая </button>
+                    }}> Следующая
+                    </button>
                 </div>
             </div>
             <div className={s.list2}>
@@ -74,10 +85,10 @@ let PaginatorV1: FC<PropsType> = ({totalCount, pageSize, pageNumber, onPageNumbe
                 <div>
                     <span>Перейти на</span>
                     <input value={pageNumberCount} onChange={handleListNumberCount}
-                           onKeyPress={handleClickEnter} type='number' step="1"/>
+                           onKeyPress={handleClickEnter}/>
                     <span>страницу</span>
                     <span className={s.searchButton}>
-                        <button  onClick={handleClickButton}>ОК</button>
+                        <button onClick={handleClickButton}>ОК</button>
                     </span>
                 </div>
             </div>

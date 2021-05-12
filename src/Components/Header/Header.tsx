@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ChangeEventHandler, FC, KeyboardEventHandler, useState} from "react";
+import React, {ChangeEvent, FC,useState} from "react";
 import s from "./Header.module.css"
 import github from "../../assets/image/ghub_done.png"
 import search from "../../assets/image/search-done.png"

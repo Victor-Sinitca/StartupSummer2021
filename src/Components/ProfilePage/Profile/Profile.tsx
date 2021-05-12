@@ -11,7 +11,7 @@ type PropsType = {
 const Profile: FC<PropsType> = ({userProfile}) => {
     return <div className={s.displayProfile}>
         <div className={s.avatar}>
-            <img src={userProfile.avatar_url}/>
+            <img alt="avatar" src={userProfile.avatar_url}/>
         </div>
         <div>{userProfile.name}</div>
         <a className={s.userLogin} href={userProfile.html_url} target="_blank">{userProfile.login}</a>

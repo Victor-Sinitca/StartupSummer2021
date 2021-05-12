@@ -1,3 +1,8 @@
+.displayPaginator{
+    margin: 10px;
+}
+
+
 .selectedPage {
     font-size: 12px;
     font-weight: bold;

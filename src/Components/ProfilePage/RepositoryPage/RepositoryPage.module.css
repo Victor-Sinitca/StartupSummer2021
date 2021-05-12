@@ -1,5 +1,14 @@
-.displayProfile {
+.displayRepositoryPage {
+   display: grid;
+    grid-template-rows: 40px auto 100px;
+    grid-gap: 10px;
+}
+.displayRepositoryRead{
     display: grid;
-    grid-template-columns: 2fr 10fr;
-    background-color: #07865b;
+    grid-template-rows: repeat(4, auto);
+    grid-gap: 15px;
+}
+.RepositoryHeader{
+    font: bold 22px Arial;
+    padding-top: 10px;
 }

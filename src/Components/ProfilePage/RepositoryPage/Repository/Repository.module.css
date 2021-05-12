@@ -1,15 +1,18 @@
-.displayProfile {
-    display: grid;
-    grid-template-columns: 2fr 10fr;
-    background-color: #07865b;
-    grid-gap: 10px;
-    padding: 10px;
-}
 .displayRepositoryPage{
+    width: 600px;
     display: grid;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 20px;
     grid-gap: 5px;
+    background-color: #ffffff;
+    border-radius: 4px;
 
-
+}
+.displayRepositoryPage a{
+    color: #0064ff;
+    text-decoration: none;
+    font: bold 16px Arial;
+}
+.displayRepositoryPage div{
+    text-decoration: none;
+    font: 14px Arial;
 }

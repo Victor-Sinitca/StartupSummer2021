@@ -7,12 +7,7 @@ import store from "./redux/redux-store";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
 
 
-
-
 function App() {
-
-
-
   return (
     <div className="displayApp">
         <Header />
@@ -20,8 +15,6 @@ function App() {
     </div>
   );
 }
-
-
 
 const MainApp = () => {
     return <BrowserRouter>

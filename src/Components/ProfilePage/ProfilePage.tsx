@@ -3,7 +3,13 @@ import s from "./ProfilePage.module.css"
 import Profile from "./Profile/Profile";
 import RepositoryPage from "./RepositoryPage/RepositoryPage";
 import {useDispatch, useSelector} from "react-redux";
-import {getInitRepository, getPageNumber, getUserProfile, getUserRepositories} from "../../redux/profile-selectors";
+import {
+    getInitRepository,
+    getPageNumber,
+    getPerPage,
+    getUserProfile,
+    getUserRepositories
+} from "../../redux/profile-selectors";
 import {getUsersReposThink, setPageNumber} from "../../redux/profile-reducer";
 import Preloader from "../commen/Preloader/Preloader";
 
@@ -14,15 +20,16 @@ const ProfilePage: FC<PropsType> = (props) => {
     const userRepositories = useSelector(getUserRepositories)
     const pageNumber = useSelector(getPageNumber)
     const initRepository = useSelector(getInitRepository)
+    const perPage = useSelector(getPerPage)
 
     const onPageNumber = (number: number) => {
         dispatch(setPageNumber(number))
     }
     useEffect(() => {
         if (userProfile) {
-            dispatch(getUsersReposThink(userProfile.login))
+            dispatch(getUsersReposThink(userProfile.login, perPage,pageNumber))
         }
-    }, [userProfile]);
+    }, [userProfile,pageNumber]);
 
 
     return <div className={s.displayProfile}>
@@ -33,11 +40,11 @@ const ProfilePage: FC<PropsType> = (props) => {
                     : userRepositories && userRepositories?.length > 0 ?
                         <RepositoryPage pageNumber={pageNumber} userProfile={userProfile}
                                         userRepositories={userRepositories}
-                                        onPageNumber={onPageNumber}/>
+                                        onPageNumber={onPageNumber} perPage={perPage}/>
                         : <div> No repositories</div>
                 }
             </>
-            : <div>
+            :<div>
                 empty user
             </div>
         }

@@ -12,8 +12,10 @@ let initialState = {
     searchedUser: "" as string,
     userProfile: null as null | UsersType,
     userRepositories: null as null | UserReposType,
+    perPage:4 as number,
     pageNumber:1 as number,
     initRepository:false as boolean
+
 }
 export type initialStateType = typeof initialState
 const profileReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
@@ -94,20 +96,22 @@ export const getUsersProfileThink = (user: string): ThunkActionType => async (di
     try {
         const data = await usersAPI.getUsersProfile(user)
         dispatch(addUserProfile(data))
+        dispatch(setPageNumber(1))
     } catch (e) {
         dispatch(addUserProfile(null))
+        dispatch(addUserRepositories(null))
         /*console.log("error in uploadPhotoThink" + e.message)*/
     }
 }
-export const getUsersReposThink = (user: string): ThunkActionType => async (dispatch) => {
+export const getUsersReposThink = (user: string, per_page:number, page:number,): ThunkActionType => async (dispatch) => {
+    dispatch(setInitRepository(true))
     try {
-        dispatch(setInitRepository(true))
-        const data = await usersAPI.getUsersRepos(user)
+        const data = await usersAPI.getUsersRepos(user,per_page,page)
         dispatch(addUserRepositories(data))
         dispatch(setInitRepository(false))
     } catch (e) {
         console.log("error in uploadPhotoThink" + e.message)
-        dispatch(addUserRepositories(null))
+        dispatch(addUserProfile(null))
         dispatch(setInitRepository(false))
     }
 }

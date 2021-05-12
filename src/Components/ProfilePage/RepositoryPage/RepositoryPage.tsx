@@ -9,30 +9,29 @@ type PropsType = {
     pageNumber: number
     userProfile: UsersType
     userRepositories: UserReposType | null
+    perPage: number
     onPageNumber: (number: number) => void
 }
-const RepositoryPage: FC<PropsType> = ({userRepositories, userProfile, pageNumber, onPageNumber}) => {
-    const pageSize = 4 as number
-    const sliceArg1 = (pageNumber - 1) * pageSize
-    const sliceArg2 = pageNumber * pageSize
-    let totalCount = 0 as number
+const RepositoryPage: FC<PropsType> = ({
+                                           userRepositories, userProfile,
+                                           pageNumber, onPageNumber, perPage
+                                       }) => {
     let repositoryRead
-    let RepositoryPart = userRepositories
+    let totalCount = 0 as number
     if (userRepositories) {
-        totalCount = userRepositories.length
-        RepositoryPart = userRepositories.slice(sliceArg1, sliceArg2)
-        repositoryRead = RepositoryPart.map((r) =>
-            <Repository hrefName={r.html_url} name={r.name} description={r.description}/>
+        totalCount = userProfile.public_repos
+        repositoryRead = userRepositories.map((r) =>
+            <Repository key={r.id} hrefName={r.html_url} name={r.name} description={r.description}/>
         )
     }
     return <div className={s.displayRepositoryPage}>
-        <div>Repositories</div>
-        <div className={s.displayRepository}>
+        <div className={s.RepositoryHeader} >Repositories ({userProfile.public_repos})</div>
+        <div className={s.displayRepositoryRead}>
             {repositoryRead}
         </div>
-        {totalCount > pageSize
-        &&
-        <PaginatorV1 totalCount={totalCount} pageSize={pageSize} pageNumber={pageNumber} onPageNumber={onPageNumber}/>}
+        {totalCount > perPage &&
+        <PaginatorV1 totalCount={userProfile.public_repos} pageSize={perPage}
+                     pageNumber={pageNumber} onPageNumber={onPageNumber}/>}
     </div>
 }
 export default RepositoryPage

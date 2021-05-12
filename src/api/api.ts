@@ -1,11 +1,9 @@
 import axios, {AxiosRequestConfig} from "axios";
-import {contactsType, photosType, profileUserType} from "../../Types/Types";
 
 const instance = axios.create({
     baseURL: 'https://api.github.com',
     headers: {"Accept": "application/vnd.github.v3+json"}
 } as AxiosRequestConfig)
-
 
 export  type UsersType = {
     login: string,
@@ -41,7 +39,6 @@ export  type UsersType = {
     created_at: string,
     updated_at: string
 }
-
 type OwnerType = {
     login: string,
     id: number,
@@ -63,7 +60,8 @@ type OwnerType = {
     events_url: string,
     site_admin: boolean
 }
-type ReposType={id: 365536174,
+type ReposType = {
+    id: 365536174,
     node_id: string
     name: string
     full_name: string
@@ -116,7 +114,7 @@ type ReposType={id: 365536174,
     ssh_url: string,
     clone_url: string,
     svn_url: string,
-    homepage: null|string,
+    homepage: null | string,
     size: number,
     stargazers_count: number,
     watchers_count: number,
@@ -127,24 +125,35 @@ type ReposType={id: 365536174,
     has_wiki: boolean,
     has_pages: boolean,
     forks_count: number,
-    mirror_url: null|string,
+    mirror_url: null | string,
     archived: boolean,
     disabled: boolean,
     open_issues_count: number,
-    license: null|string,
+    license: null | string,
     forks: number,
     open_issues: number,
     watchers: number,
-    default_branch: string}
-export  type UserReposType= Array<ReposType>
+    default_branch: string
+}
+export  type UserReposType = Array<ReposType>
 
 
 export const usersAPI = {
-    getUsersProfile(username: string) {
-        return instance.get<UsersType>(`/users/${username}`).then(response => response.data)
+    getUsersProfile(username: string, ) {
+        return instance.get<UsersType>(`/users/${username}`, ).then(response => response.data)
     },
-    getUsersRepos(username: string) {
-        return instance.get<UserReposType>(`/users/${username}/repos`).then(response => response.data)
+    getUsersRepos(username: string, per_page= 1 as number, page = 10 as number,
+                  type=""as string, sort="" as string, direction="" as string) {
+        return instance.get<UserReposType>(`/users/${username}/repos`,{
+            params: {
+                username: username,
+                    type: type,
+                    sort: sort,
+                    direction: direction,
+                    per_page: per_page,
+                    page: page
+            }
+        }).then(response => response.data)
     }
 }
 

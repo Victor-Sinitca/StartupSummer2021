@@ -8,7 +8,7 @@ type PropsType = {
 }
 const Repository: FC<PropsType> = ({hrefName, name, description}) => {
     return <div className={s.displayRepositoryPage}>
-        <a href={hrefName}>{name}</a>
+        <a href={hrefName} target="_blank">{name}</a>
         <div>{description}</div>
     </div>
 }

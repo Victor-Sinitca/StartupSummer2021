@@ -1,4 +1,4 @@
 .displayApp {
     display: grid;
-    grid-template-rows: 40px 1fr;
+    grid-template-rows: 40px minmax(600px, 200px);
 }
