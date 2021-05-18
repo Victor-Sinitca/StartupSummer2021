@@ -2,11 +2,11 @@ import {UserReposType, usersAPI, UsersType} from "../api/api";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./redux-store";
 
-const ADD_USER_PROFILE = 'profilePage/ADD_USER_PROFILE';
-const ADD_USER_REPOSITORIES = 'profilePage/ADD_USER_REPOSITORIES';
-const ADD_SEARCHED_USER = 'profilePage/ADD_SEARCHED_USER';
-const SET_PAGE_NUMBER = 'profilePage/SET_PAGE_NUMBER';
-const SET_INIT_REPOSITORY = 'profilePage/SET_INIT_REPOSITORY';
+const ADD_USER_PROFILE = 'PROFILE_PAGE/ADD_USER_PROFILE';
+const ADD_USER_REPOSITORIES = 'PROFILE_PAGE/ADD_USER_REPOSITORIES';
+const ADD_SEARCHED_USER = 'PROFILE_PAGE/ADD_SEARCHED_USER';
+const SET_PAGE_NUMBER = 'PROFILE_PAGE/SET_PAGE_NUMBER';
+const SET_INIT_REPOSITORY = 'PROFILE_PAGE/SET_INIT_REPOSITORY';
 
 let initialState = {
     searchedUser: "" as string,
@@ -100,7 +100,7 @@ export const getUsersProfileThink = (user: string): ThunkActionType => async (di
     } catch (e) {
         dispatch(addUserProfile(null))
         dispatch(addUserRepositories(null))
-        /*console.log("error in uploadPhotoThink" + e.message)*/
+        console.log("error in uploadPhotoThink" + e.message)
     }
 }
 export const getUsersReposThink = (user: string, per_page:number, page:number,): ThunkActionType => async (dispatch) => {
